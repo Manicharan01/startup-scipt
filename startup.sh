@@ -45,6 +45,7 @@ YAY_PKGS=(
 "librewolf-bin"
 "spotify-adblock"
 "ulauncher"
+"ttf-meslo-nerd"
 )
 
 sudo pacman -Syu
@@ -65,7 +66,7 @@ makepkg -si
 yay -Syu
 echo "Yay installed and repository updated"
 
-for yayPackage in "${YAY_PKGS}"; do
+for yayPackage in "${YAY_PKGS[@]}"; do
     echo "Installing ${yayPackage}..."
     yay -S -noconfirm "$yayPackage"
 done
@@ -125,9 +126,10 @@ pnpm i g npm
 echo "Installing banana cursor...."
 pipx install clickgen
 pipx ensurepath
-pnpm i g yarn
+npm install --global yarn
 git clone https://github.com/ful1e5/banana-cursor ~/Downloads/banana-cursor
 cd ~/Downloads/banana-cursor
+npx cbmp render.json
 npx cbmp render.json
 cd ~/Downloads/banana-cursor/bitmaps/
 mkdir -p ~/.local/share/icons
