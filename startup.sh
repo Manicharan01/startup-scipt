@@ -5,7 +5,9 @@ REQUIRED_PACKAGES=(
     "brightnessctl"
     "chromium"
     "fd"
+    "fakeroot"
     "fzf"
+    "gcc"
     "hypridle"
     "hyprlock"
     "hyprpaper"
@@ -13,6 +15,7 @@ REQUIRED_PACKAGES=(
     "i3status"
     "kitty"
     "libreoffice-still"
+    "make"
     "mako"
     "mpd"
     "mpv"
@@ -37,7 +40,7 @@ REQUIRED_PACKAGES=(
     "zsh"
 )
 
-YAY_PKGS = (
+YAY_PKGS=(
 "dracula-gtk-theme"
 "librewolf-bin"
 "spotify-adblock"
@@ -48,8 +51,12 @@ sudo pacman -Syu
 
 for package in "${REQUIRED_PACKAGES[@]}"; do
     echo "Installing $package..."
-    sudo pacman -S -noconfirm "$package"
+    sudo pacman -S --noconfirm "$package"
 done
+
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.1/install.sh | bash
+curl -fsSL https://get.pnpm.io/install.sh | sh -
+
 
 echo "Installing yay..."
 git clone https://aur.archlinux.org/yay.git
@@ -76,10 +83,12 @@ git config --global user.name "Kollipara Nagavenkatalakshmana Manicharan"
 git config --global init.defaultBranch main
 echo "Git setup complete"
 
-git clone git@github.com:Manicharan01/.dotfiles.git /home/charan/
+git clone git@github.com:Manicharan01/.dotfiles.git /home/charan/.dotfiles
 
 ISDOT=/home/charan/.dotfiles
 folders=()
+
+rm -rf ~/.zshrc
 
 if [ -d "$ISDOT" ]; then
     echo "DOTFILES are there"
@@ -96,29 +105,37 @@ else
 fi
 
 if [ "$folders" ]; then
+	cd ~/.dotfiles
     for folder in "${folders[@]}"; do
         if [[ $folder == "i3" || $folder == "iterm2" || $folder == "polybar" || $folder == "rofi" || $folder == "wallpapers" ]]; then
             continue
         else
             echo "Stowing $folder..."
-            #stow "$(basename "$folder")"
+            stow "$folder"
         fi
     done
 else
     echo "No Folders"
 fi
 
+source ~/.zshrc
+nvm install node
+pnpm i g npm
+
 echo "Installing banana cursor...."
 pipx install clickgen
 pipx ensurepath
 pnpm i g yarn
-git clone https://github.com/ful1e5/banana-cursor ~/Downloads/
+git clone https://github.com/ful1e5/banana-cursor ~/Downloads/banana-cursor
 cd ~/Downloads/banana-cursor
 npx cbmp render.json
-cd ~/Downloads/banana-cursor/themes/
+cd ~/Downloads/banana-cursor/bitmaps/
 mkdir -p ~/.local/share/icons
 mv Banana ~/.local/share/icons/
 mv Banana-Blue ~/.local/share/icons/
 mv Banana-Red ~/.local/share/icons/
 mv Banana-Green ~/.local/share/icons/
 echo "Banana cursor installed successfully.."
+
+
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
