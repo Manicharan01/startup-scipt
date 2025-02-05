@@ -52,7 +52,7 @@ sudo pacman -Syu
 
 for package in "${REQUIRED_PACKAGES[@]}"; do
     echo "Installing $package..."
-    sudo pacman -S --noconfirm "$package"
+    sudo pacman -S --needed - < ./pacman-pkgs.txt
 done
 
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.1/install.sh | bash
@@ -68,7 +68,7 @@ echo "Yay installed and repository updated"
 
 for yayPackage in "${YAY_PKGS[@]}"; do
     echo "Installing ${yayPackage}..."
-    yay -S -noconfirm "$yayPackage"
+    yay -S --needed - < ./yay-pkgs.txt
 done
 
 ssh-keygen -t rsa -b 4096 -C "manicharan150@gmail.com"
