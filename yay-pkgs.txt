@@ -7,11 +7,13 @@ archcraft-backgrounds-nature
 asdf-vm
 dracula-gtk-theme
 ente-auth-bin
+filebot
 hyprshot
 librewolf-bin
 localsend
 minecraft-launcher
 otf-kopubworld
+python-clickgen
 soulseekqt
 trackma-git
 ttf-iosevka-term
